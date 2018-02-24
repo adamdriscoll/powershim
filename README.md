@@ -2,7 +2,9 @@
 
 ## Invoke Windows PowerShell from PowerShell Core
 
-Executes code in an out-of-proc Windows PowerShell instance and use PowerShell Remoting to communicate with it from PowerShell Core. This uses the same protocol as Enter-PSHostProcess.
+There are a lot of modules that do not yet support PowerShell Core. To work around this, you can use PowerShim to execute Windows PowerShell cmdlets and return the results to PowerShell Core. 
+
+Thie module executes code in an out-of-proc Windows PowerShell instance and uses PowerShell Remoting to communicate with it from PowerShell Core. This uses the same protocol as Enter-PSHostProcess.
 
 This isn't perfect. Some script blocks won't work but should allow you to call cmdlets you wouldn't normally be able to call in PowerShell Core.
 
