@@ -8,6 +8,8 @@ This isn't perfect. Some script blocks won't work but should allow you to call c
 
 ## Give it a shot
 
+![](./images/powershim.gif)
+
 ```
 PS> Import-Module PowerShim
 PS> Get-SmbShare
