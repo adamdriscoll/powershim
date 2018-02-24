@@ -6,6 +6,8 @@ Executes code in an out-of-proc Windows PowerShell instance and use PowerShell R
 
 This isn't perfect. Some script blocks won't work but should allow you to call cmdlets you wouldn't normally be able to call in PowerShell Core.
 
+Cmdlet return values are serialized over PowerShell remoting so you will have objects returned by Invoke-Shim.
+
 ## Give it a shot
 
 ![](./images/powershim.gif)
