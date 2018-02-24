@@ -1,7 +1,7 @@
 function New-OutOfProcRunspace {
-    $PowerShell = Start-Process PowerShell -ArgumentList @("-NoExit") -PassThru -WindowStyle Hidden
+    param($ProcessId)
 
-    $ci = New-Object -TypeName System.Management.Automation.Runspaces.NamedPipeConnectionInfo -ArgumentList @($PowerShell.Id)
+    $ci = New-Object -TypeName System.Management.Automation.Runspaces.NamedPipeConnectionInfo -ArgumentList @($ProcessId)
     $tt = [System.Management.Automation.Runspaces.TypeTable]::LoadDefaultTypeFiles()
 
     $Runspace = [System.Management.Automation.Runspaces.RunspaceFactory]::CreateRunspace($ci, $Host, $tt)
@@ -23,25 +23,19 @@ function New-OutOfProcRunspace {
     $Runspace
 }
 
-function Import-WindowsPowerShellModule {
-    param($Module)
-
-    $Commands = Invoke-Shim {
-        Get-Command -Module $args[0]
-    } -ArgumentList $Module
-
-    #TODO: Generate functions to stub out cmdlets
-}
-
 function Invoke-Shim {
     param($ScriptBlock, $ArgumentList)
 
+    $PowerShell = $null
     try {
-        $PowerShell = $ScriptBlock.GetPowerShell($true, $ArgumentList)
-        $PowerShell.Runspace = $PowerShellv3Runspace
+        $PowerShell = $ScriptBlock.GetPowerShell()
+        $PowerShell.Runspace = $Runspace
         $PowerShell.Invoke()
     }
-    catch {}
+    finally {
+        $PowerShell.Dispose()
+    }
 }
 
-$PowerShellv3Runspace = New-OutOfProcRunspace
+$Process = Start-Process PowerShell -ArgumentList @("-NoExit") -PassThru -WindowStyle Hidden
+$Runspace = New-OutOfProcRunspace -ProcessId $Process.Id
