@@ -101,6 +101,24 @@ TotalSeconds      : 137.3050396
 TotalMilliseconds : 137305.0396
 ```
 
+## A note on WindowsPSModulePath
+
+You can install the [WindowsPSModulePath](https://www.powershellgallery.com/packages/WindowsPSModulePath/1.0.0) module to add the Windows PowerShell module path to PS Core. This will enable location of Windows PowerShell modules in PowerShell Core. It will not necessarily enable the ability to load those modules in PS Core. 
+
+For example, if you try to load the ActiveDirectory module is PS Core, you will receive the following error. 
+
+```
+PS C:\Program Files\PowerShell\6.0.1> Install-Module WindowsPSModulePath -Scope CurrentUser -Force
+PS C:\Program Files\PowerShell\6.0.1> Add-WindowsPSModulePath
+PS C:\Program Files\PowerShell\6.0.1> Import-Module ActiveDirectory
+Import-Module : Could not load type 'System.Management.Automation.PSSnapIn' from assembly 'System.Management.Automation, Version=6.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+At line:1 char:1
++ Import-Module ActiveDirectory
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : NotSpecified: (:) [Import-Module], TypeLoadException
++ FullyQualifiedErrorId : System.TypeLoadException,Microsoft.PowerShell.Commands.ImportModuleCommand
+
+```
 
 ## An idea for the future
 
